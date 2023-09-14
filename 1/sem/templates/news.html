@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+<h1 class="display-2">{{title}}</h1>
+<table class="text-monospace">
+    <tr>
+        <th>Заголовок</th>
+        <th>Описание</th>
+        <th>Дата</th>
+    </tr>
+    {% for new in news %}
+    <tr>
+        <td>{{new.title}}</td>
+        <td>{{new.description}}</td>
+        <td>{{new.date}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

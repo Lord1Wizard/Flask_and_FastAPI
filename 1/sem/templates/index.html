@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<header>
+    Это шапка
+</header>
+<nav>
+    <a href="{{ url_for('index') }}">Главная</a>
+    <a href="{{ url_for('news') }}">Новости</a>
+</nav>
+<p class="text-body text-justify">
+    {% block content %}
+    "Привет, мир!"
+    {% endblock %}
+</p>
+<footer>
+    Это подвал
+</footer>
+</body>
+</html>
