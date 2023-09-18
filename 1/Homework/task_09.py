@@ -12,48 +12,46 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World'
-
-
 @app.route('/index/')
 def index():
     context = {
         'title': 'Hoom',
-        'news': [
-            {
-                "title": "Путин подарил Ким Чен Ыну",
-                "description": "Путин подарил Ким Чен Ыну карабин и побывавшую в космосе перчатку от скафандра",
-                "date": '2023-09-14'
-            },
-            {
-                "title": "саммит G20",
-                "description": "Spiked: саммит G20 завершился крупной победой России и потерей влияния Запада",
-                "date": '2023-09-14'
-            },
-        ]
+        'products': [{'name': 'clothes',
+                      'title': 'Одежда'},
+                     {'name': 'shoes',
+                      'title': 'Обувь'}
+                     ]
     }
     return render_template('index.html', **context)
 
 
-@app.route('/news/')
-def news():
+@app.route('/clothes/')
+def clothes():
     context = {
-        'title': 'Новости',
-        'news': [
-            {
-                "title": "Путин подарил Ким Чен Ыну",
-                "description": "Путин подарил Ким Чен Ыну карабин и побывавшую в космосе перчатку от скафандра",
-                "date": '2023-09-14'
-            },
-            {
-                "title": "саммит G20",
-                "description": "Spiked: саммит G20 завершился крупной победой России и потерей влияния Запада",
-                "date": '2023-09-14'
-            },
-        ]
+        'title': 'Hoom',
+        'products': [{'name': 'jackets',
+                     'title': 'Куртки'},
+                     {'name': 'coat',
+                     'title': 'пальто'},
+                     {'name': 'raincoats',
+                      'title': 'Плащи'}
+                     ]
     }
-    return render_template('news.html', **context)
+    return render_template('clothes.html', **context)
+
+
+@app.route('/jackets/')
+def jackets():
+    return render_template('jackets.html')
+@app.route('/coat/')
+def coat():
+    return render_template('coat.html')
+@app.route('/raincoats/')
+def raincoats():
+    return render_template('raincoats.html')
+@app.route('/shoes/')
+def shoes():
+    return render_template('shoes.html')
 
 
 if __name__ == '__main__':

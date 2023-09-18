@@ -2,21 +2,15 @@
 
 
 {% block content %}
-<h1 class="display-2">Информация о студентах</h1>
+<h1 class="display-2">Список категорий</h1>
 <table class="text-monospace">
-  <tr>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Возраст</th>
-    <th>Средний бал</th>
-  </tr>
-  {% for student in students %}
-  <tr>
-    <td>{{student.name}}</td>
-    <td>{{student.surname}}</td>
-    <td>{{student.age}}</td>
-    <td>{{student.average}}</td>
-  </tr>
-  {% endfor %}
+    <tr>
+        <th>Категория</th>
+    </tr>
+    {% for product in products %}
+        <tr>
+            <th><a class="selected" href="{{ url_for(product.name) }}">{{product.title}}</a></th>
+        </tr>
+    {% endfor %}
 </table>
 {% endblock %}
