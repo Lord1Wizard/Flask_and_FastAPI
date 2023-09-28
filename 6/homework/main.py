@@ -2,7 +2,7 @@ import databases
 import sqlalchemy
 from typing import List, Optional
 from fastapi import FastAPI, Request
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -60,47 +60,48 @@ async def shutdown():
 
 
 class UserIn(BaseModel):
-    name: str = Field(max_length=32)
-    lastname: str = Field(max_length=32)
-    email: str = Field(max_length=128)
-    passwd: str = Field(max_length=32)
+    name: str = Field(title="user name", max_length=32)
+    lastname: str = Field(title="user last name", max_length=32)
+    email: EmailStr = Field(title="user email", max_length=128)
+    passwd: str = Field(title="password", max_length=32)
 
 
 class User(BaseModel):
-    id: int
-    name: str = Field(max_length=32)
-    lastname: str = Field(max_length=32)
-    email: str = Field(max_length=128)
-    passwd: str = Field(max_length=32)
+    id: int = Field(title="user id")
+    name: str = Field(title="user name", max_length=32)
+    lastname: str = Field(title="user last name", max_length=32)
+    email: EmailStr = Field(title="user email", max_length=128)
+    passwd: str = Field(title="password", max_length=32)
+
 
 
 class ProductIn(BaseModel):
-    product_name: str = Field(max_length=32)
-    description: str = Field(max_length=128)
-    price: float
+    product_name: str = Field(title="product name", max_length=32)
+    description: str = Field(title="product description", max_length=128)
+    price: float = Field(0, title="price", ge=0)
 
 
 class Product(BaseModel):
-    id: int
-    product_name: str = Field(max_length=32)
-    description: str = Field(max_length=128)
-    price: float
+    id: int = Field(title="product id")
+    product_name: str = Field(title="product name", max_length=32)
+    description: str = Field(title="product description", max_length=128)
+    price: float = Field(0, title="price", ge=0)
 
 
 class OrderIn(BaseModel):
-    id_user: int
-    id_product: int
+    id_user: int = Field(title="user id")
+    id_product: int = Field(title="product id")
     order_date: Optional[datetime] = datetime.now()
-    status: bool = Field(default=True)
+    status: bool = Field(default=True, title="status")
     # по умолчанию сделка состоялась (раз мы ее добавили)
 
 
 class Order(BaseModel):
-    id: int
-    id_user: int
-    id_product: int
-    order_date: Optional[datetime] = datetime.now()
-    status: bool
+    id: int = Field(title="order id")
+    id_user: int = Field(title="user id")
+    id_product: int = Field(title="product id")
+    order_date: Optional[datetime]
+    status: bool = Field(title="status")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -111,7 +112,6 @@ async def index(request: Request):
 @app.post('/users/', response_model=User)
 async def create_user(user: UserIn):
     """Create/Добавление пользователя"""
-    # query = users.insert().values(name=user.name, email=user.email, lastname=user.lastname, passwd=user.passwd)
     query = users.insert().values(**user.model_dump())
     last_record_id = await database.execute(query)
     return {**user.model_dump(), 'id': last_record_id}
